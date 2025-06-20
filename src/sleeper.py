@@ -6,6 +6,12 @@ BASE_URL = "https://api.sleeper.app/v1"
 DATA_DIR = "../data"
 PLAYER_DATA_FILE = DATA_DIR + "/sleeper_players.json"
 
+def get_current_week():
+    """Fetches the current NFL week from the Sleeper API."""
+    response = requests.get(f"{BASE_URL}/state/nfl")
+    response.raise_for_status()
+    return response.json().get('week', None)
+
 def get_league_users(league_id):
     """Fetches all users in a league."""
     response = requests.get(f"{BASE_URL}/league/{league_id}/users")

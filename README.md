@@ -57,11 +57,19 @@ If you want to give the LLM additional context about your league members, create
 Run the main script:
 
 ```bash
-python src/main.py
+python src/main.py [--week WEEK_NUMBER] [--refresh-players]
 ```
 
-- Enter the week number when prompted.
-- The script will fetch data, analyze matchups, and generate a recap.
+- `--week WEEK_NUMBER`: (Optional) Specify the week number for the recap. If not provided, the current week will be used.
+- `--refresh-players`: (Optional) Force refresh of player data from the Sleeper API.
+
+Example:
+
+```bash
+python src/main.py --week 7 --refresh-players
+```
+
+The script will fetch data, analyze matchups, and generate a recap.
 
 ---
 

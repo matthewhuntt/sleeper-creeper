@@ -3,6 +3,8 @@ import os
 from dotenv import load_dotenv
 import sleeper
 import gemini
+import sys
+import argparse
 
 DATA_DIR = "../data"
 
@@ -137,8 +139,14 @@ def generate_summary(users, rosters, matchups, players, week):
     return full_summary_data
 
 
-def main(refresh_players=False):
+def main():
     """Main function to run the fantasy football recap generator."""
+
+    parser = argparse.ArgumentParser(description="Generate a fantasy football recap for a given week.")
+    parser.add_argument("--refresh-players", action="store_true", help="Force refresh of player data from Sleeper API.")
+    parser.add_argument("--week", type=int, help="Specify the week number for the recap. If not provided, use the current week.")
+    args = parser.parse_args()
+    refresh_players = args.refresh_players
 
     load_dotenv()
     league_id = os.getenv("SLEEPER_LEAGUE_ID")
@@ -152,12 +160,16 @@ def main(refresh_players=False):
         print("Error: SLEEPER_LEAGUE_ID and GEMINI_API_KEY must be set in the .env file.")
         return
 
-    while True:
+    if args.week:
+        week = args.week
+    else:
         try:
-            week = int(input("Enter the week number for the recap: "))
-            break
-        except ValueError:
-            print("Invalid input. Please enter a number.")
+            week = sleeper.get_current_week()
+            if not week:
+                raise ValueError("Could not determine the current week from Sleeper API.")
+        except Exception as e:
+            print(f"Error fetching current week: {e}")
+            sys.exit(1)
 
     try:
         print("Fetching data from Sleeper...")

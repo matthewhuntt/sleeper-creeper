@@ -3,3 +3,4 @@
 data/*
 pycache/*
 sleeper-creeper.*
+src/pycache/*
