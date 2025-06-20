@@ -1,0 +1,7 @@
+jupyter
+ipykernel
+keyring
+pandas
+requests
+google-genai
+dotenv
