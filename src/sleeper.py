@@ -9,7 +9,7 @@ PLAYER_DATA_FILE = DATA_DIR + "/sleeper_players.json"
 def get_league_users(league_id):
     """Fetches all users in a league."""
     response = requests.get(f"{BASE_URL}/league/{league_id}/users")
-    response.raise_for_status() # Raise an exception for bad status codes
+    response.raise_for_status()
     return response.json()
 
 def get_league_rosters(league_id):
@@ -43,13 +43,12 @@ def get_players(refresh=False):
             print(f"Player data saved to {PLAYER_DATA_FILE}")
         except requests.exceptions.RequestException as e:
             print(f"Error fetching player data: {e}")
-            # If the API call fails, try to fall back to the existing file
+
             if os.path.exists(PLAYER_DATA_FILE):
                 print("Falling back to existing local player data.")
                 with open(PLAYER_DATA_FILE, 'r') as f:
                     player_data = json.load(f)
             else:
-                # If there's no fallback, we cannot proceed.
                 raise
     else:
         print(f"Loading player data from local file ({PLAYER_DATA_FILE}).")

@@ -10,7 +10,6 @@ def generate_recap(api_key, summary_data, league_member_info=None):
 
         model = "gemini-2.5-flash"
 
-        # This is the prompt that instructs Gemini on its persona and task
         prompt = f"""
         You are a sarcastic and witty fantasy football commentator.
         Your task is to write a weekly recap for a fantasy football league.
